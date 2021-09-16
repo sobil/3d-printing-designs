@@ -29,7 +29,6 @@ intersection() {
     translate([plate_width/2,plate_width/2,thickness]) cylinder(socket_length, d=rod_diameter, $fn = circle_resolution);
     //open top
     translate([plate_width/2-rod_diameter/2,plate_width/2,thickness]) cube([rod_diameter,rod_diameter,socket_length]);
-    //translate([0,plate_width/2+rod_diameter/2+0,thickness]) cube([plate_width,plate_width,socket_length]);
   }
   //smooth the top half
   union() {
