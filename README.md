@@ -1,2 +1,5 @@
 # misc_stuff
-miscellaneous files
+
+Assorted 3d Designs.
+
+PRs and Issues welcome.
