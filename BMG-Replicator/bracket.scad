@@ -28,7 +28,9 @@ module one_side() {
         cube([nbr[0]/2,nbr[1],nbr[2]]);
         translate([0,w/2,0]) {
             //space saving hole
-            cube([nbr[0]/2-w,nbr[1],nbr[2]]);
+            cube([nbr[0]/2-10,nbr[1],nbr[2]]);
+            //arch
+            scale([((nbr[0]/2)-10)/(h-w/2),1,1]) translate([0,0,h]) rotate([90,0,0]) cylinder(r=h-w/2,h=w/2);
         }
         //NEMA bracker mount screw 
         translate([nbr[0]/2-5,5,0]) cylinder(d=3,h=h,$fn=30);
