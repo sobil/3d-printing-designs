@@ -2,10 +2,9 @@
 //Bracket for mounting a single BMG extruder to Makerbot Dual Extruder carriage
 //Simon Pilepich 2021-09-16
 
-
+//Works nema bracket that comes with BMG kit
 
 h=17; //Height to raise the bracket by
-
 mount_hole_spacing=73.3;
 mount_hole_diameter=3;
 mount_hole_nut=5.5;
