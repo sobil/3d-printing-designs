@@ -1,0 +1,45 @@
+w=7;width=w;
+l=140;length=l;
+
+d1=48;
+d2= 70;
+d3=3*w;
+d4=25;
+d5=31;
+d6=52;
+cube([w,l,d3]);
+
+
+//Spool placeholder
+//translate([0,(+55/2)-(d3/2),d3]) color("blue") difference() {
+//    cylinder(d=200,h=d2);
+//    cylinder(d=55,h=d2);
+//}
+
+
+difference(){
+    translate([-w,0,0])cube([w*3,l,w]);
+    //holes for cable tie
+    translate([-w/3,l-d5,0])cube([w/3,w,d3]);
+    translate([-w/3,l-d6,0])cube([w/3,w,d3]);
+    translate([+w,l-d5,0])cube([w/3,w,d3]);
+    translate([+w,l-d6,0])cube([w/3,w,d3]);
+}
+
+// Bobbin
+color("red") translate([w/2,0,0]) cylinder(h=d2+d3+w,r=d3/2,);
+translate([w/2,0,d2+d3+w]) cylinder(h=w,d1=d3,d2=d3+w,);
+
+// Bottom Support
+translate([-w,l-w,0]) cube([w*3,w,d2]);
+translate([0,l-w*3,0]) cube([w,w*3,d2]);
+
+// bottom bit
+translate([+w,l,0]) cube([w,d1,d3]);
+translate([-w,l,0]) cube([w,d1,d3]);
+
+//cable tie bit
+translate([-w,d1+l,0]) cube([w+1,w*1.5,d3-w/3]);
+translate([+w-1,d1+l,0]) cube([w+1,w*1.5,d3-w/3]);
+translate([-w,d1+l+w,0]) cube([w+1,w*.5,d3]);
+translate([+w-1,d1+l+w,0]) cube([w+1,w*.5,d3]);
