@@ -24,20 +24,16 @@ nema_screw_diameter=3.5;
 r_rail_spacing= z_rail_spacing+rod_diameter+od+thickness;
 
 
-//middle_follower();
 //socket(closeable=true);
 //main_follower();
-// middle_follower();
-//crane_base();
+//translate([0,-plate_width/2,-plate_width/2]) rotate([90,0,90]) crane_base();
 //sockets();
-
-
-// follower_belt_mount();
+//belt_pully();
+//follower_belt_mount();
 //main_follower();
-
-//rails();
+rails();
 //old_middle_follower();
-// nema_idler();
+//nema_idler();
 
 
 module nema_idler() {
@@ -58,36 +54,22 @@ module main_follower() {
   mirror([1,0,0]) mf_lower();
 }
 
-
-
-module mf_lower() {
-  translate([-nema_width/2,-nema_width-rod_diameter/2-thickness/2-od/2,rod_diameter/2+thickness/2-thickness]) nema_17_plate(open_top=true);
-  
-  translate([r_rail_spacing/2,0,0]) {
-    difference() {
-    hull() {
-      translate([0,+socket_length/2-rod_diameter/2-thickness/2-nema_width-od/2,rod_diameter+thickness/2]) rotate([90,0,180]) socket(for_base=false, closeable=false);
-      translate([0,+od*1.5-nema_width-rod_diameter/2-thickness/2-od/2,0]) rotate([-90,0,0]) translate([0,0,0]) bearing_holder(base_only=true);
-      translate([0,+od*1.5-nema_width-rod_diameter/2-thickness/2-od/2+socket_length-thickness,0]) rotate([-90,0,0]) translate([0,0,0]) bearing_holder(base_only=true);
-      translate([-r_rail_spacing/2+nema_width/2,-nema_width-rod_diameter/2-thickness/2-od/2,rod_diameter/2+thickness/2-thickness]) cube([thickness,socket_length,thickness]);
-      
-    }
-    hull() translate([0,+socket_length/2-rod_diameter/2-thickness/2-nema_width-od/2,rod_diameter+thickness/2]) rotate([90,0,180]) socket(for_base=false, closeable=false);
-    }
-    translate([0,+socket_length/2-rod_diameter/2-thickness/2-nema_width-od/2,rod_diameter+thickness/2]) rotate([90,0,180]) socket(for_base=false, closeable=true);
-    translate([0,-rod_diameter/2,0]) rotate([-90,0,0]) translate([0,0,0]) bearing_holder();
+// screw_base();
+module screw_base() {
+  sb_lower(open_top=false);
+  mirror([1,0,0]) sb_lower(open_top=false);
+}
+module sb_lower(open_top=true) {
+//translate([-nema_width/2,-nema_width-rod_diameter/2-thickness/2-od/2,rod_diameter/2+thickness/2-thickness])
+  translate([-nema_width/2,-nema_width/2,0]) nema_17_plate(open_top=open_top);
+  translate([r_rail_spacing/2,0,socket_length/2]) {
+translate([0,0,thickness]) rotate([0,0,180]) socket(for_base=true, closeable=true);
+    translate([-plate_width/2,-plate_width/2,-socket_length/2]) base();
   }
 }
 
 module z_slide_bp() {
 }
-
-module middle_follower() {
-}
-
-// old_middle_follower();
-
-
 
 module follower_belt_mount() {
     gap=1.5;
@@ -119,18 +101,18 @@ module follower_belt_mount() {
     
 }
 
-
 module old_middle_follower() {
   difference() {
     hull() {
       old_middle_follower_bearings(base_only=true);
+      translate([(z_rail_spacing/2)+bearing_width*1.5,0,rod_diameter+thickness/2]) cube([rod_diameter+thickness,(z_rail_spacing+rod_diameter),rod_diameter/2]);
     }
     //bolt holes
     translate([(z_rail_spacing/2),(z_rail_spacing+rod_diameter)/2,0]) cylinder(h=100,d=8);
-        mirror(1,0,0) translate([(z_rail_spacing/2),(z_rail_spacing+rod_diameter)/2,0]) cylinder(h=100,d=8);
+        mirror([1,0,0]) translate([(z_rail_spacing/2),(z_rail_spacing+rod_diameter)/2,0]) cylinder(h=100,d=8);
   }
   old_middle_follower_bearings();
-  
+  translate([(z_rail_spacing/2)+bearing_width*1.5,0,rod_diameter+thickness/2]) cube([rod_diameter+thickness,(z_rail_spacing+rod_diameter),rod_diameter/2]);
 }
 
 module old_middle_follower_bearings(base_only=false, rodholder=false) {
@@ -214,7 +196,6 @@ module crane_base() {
   }
 }
 
-
 module sockets(a=true,b=true) {
   if(a == true) translate([0,0,thickness]) translate([plate_width/2,plate_width/2,socket_length/2]) socket(closeable=true);
   if(b == true)translate([z_rail_spacing+plate_width+rod_diameter,0,thickness])mirror([1,0,0]) translate([plate_width/2,plate_width/2,socket_length/2])  socket(closeable=true);   
@@ -282,7 +263,7 @@ module socket(closeable=false,closing_bolt=6, for_base=true, clearance=false, ha
 }
 
 //a plate with holes in it
-module base (x,y, radius,hole,thickness) {
+module base (x=plate_width,y=plate_width, radius=hole,hole=hole,thickness=thickness) {
   width=x;
   difference () {
     hull() screw_holes(2*radius,hole,thickness,width,width);
@@ -323,8 +304,6 @@ module R_rails() {
   translate([(-r_rail_spacing)/2,0,rod_diameter+thickness/2]) rotate([90,90,0]) cylinder(h=200,d=rod_diameter, center=true);
   translate([(r_rail_spacing)/2,0,rod_diameter+thickness/2]) rotate([90,90,0]) cylinder(h=200,d=rod_diameter, center=true);
 }
-
-belt_pully();
 
 module belt_pully() {
   t=1;
